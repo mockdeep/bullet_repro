@@ -1,12 +1,28 @@
 class HomeController < ApplicationController
+  before_action :setup
+
   def index
-    current_user.draft_order.destroy!
-    @order = current_user.draft_order
-    @order.update_attributes!(link: true)
+    user_1, user_2 = User.all
+
+    order_1 = user_1.order
+    order_2 = user_2.order
+    order_1.items += order_2.items
+
     render text: 'it works', layout: false
   end
 
-  def current_user
-    @current_user ||= User.first || User.create!
+private
+
+  def setup
+    User.delete_all
+
+    user_1 = User.create!
+    user_2 = User.create!
+
+    order_1 = Order.create(user: user_1)
+    order_2 = Order.create(user: user_2)
+
+    order_1.items.create!
+    order_2.items.create!
   end
 end
