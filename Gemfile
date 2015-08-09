@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 
-gem 'rails', '4.1.9'
+gem 'rails'
 gem 'pg'
 
 group :development, :test do
