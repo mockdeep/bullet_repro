@@ -1,0 +1,9 @@
+<ul>
+  <% @items.each do |item| %>
+    <li>
+      <% item.tags.each do |tag| %>
+        <%= tag.name %>
+      <% end %>
+    <li>
+  <% end %>
+</ul>

@@ -11,21 +11,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150129045118) do
+ActiveRecord::Schema.define(version: 20160802162928) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "items", force: true do |t|
+  create_table "items", force: :cascade do |t|
     t.integer "order_id"
   end
 
-  create_table "orders", force: true do |t|
+  create_table "orders", force: :cascade do |t|
     t.integer "user_id"
     t.boolean "draft"
   end
 
-  create_table "users", force: true do |t|
+  create_table "taggings", force: :cascade do |t|
+    t.integer "item_id", null: false
+    t.integer "tag_id",  null: false
   end
 
+  add_index "taggings", ["item_id"], name: "index_taggings_on_item_id", using: :btree
+  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name", null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+  end
+
+  add_foreign_key "taggings", "items"
+  add_foreign_key "taggings", "tags"
 end
